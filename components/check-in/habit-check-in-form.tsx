@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Loader2, Save } from "lucide-react";
+import { Check, Loader2, Save, Sparkles } from "lucide-react";
 import { saveTodayCheckIn, type CheckInActionState } from "@/app/actions/check-in";
 import { calculateHabitPoints, getHabitValuesFromCheckin, habits, type HabitKey } from "@/lib/habits";
 import type { DailyCheckin } from "@/lib/types";
@@ -48,37 +48,37 @@ export function HabitCheckInForm({ todayCheckin }: HabitCheckInFormProps) {
 
   return (
     <form action={action} className="space-y-5">
-      <PremiumCard className="overflow-hidden">
+      <section className="rba-hero overflow-hidden rounded-[30px] p-5 text-white shadow-2xl shadow-navy/15 md:p-7">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.16em] text-gold-dark">
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-[#F8DFA7]">
               আজকের Habit Check-in
             </p>
-            <h1 className="mt-2 text-3xl font-black leading-tight text-navy">
+            <h1 className="mt-2 text-3xl font-black leading-tight text-white sm:text-4xl">
               Today’s Growth Score
             </h1>
-            <p className="mt-2 text-base leading-7 text-brown">
-              Tick only what you completed today. Score updates instantly.
+            <p className="mt-2 max-w-2xl text-base leading-7 text-white/78">
+              Tick only what you completed today. Keep it honest, simple, and under 60 seconds.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-navy px-3 py-1.5 text-xs font-black text-white">
+              <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black text-white ring-1 ring-white/10">
                 {completedCount}/7 habits
               </span>
-              <span className="rounded-full bg-gold/10 px-3 py-1.5 text-xs font-black text-gold-dark">
+              <span className="rounded-full bg-gold px-3 py-1.5 text-xs font-black text-navy">
                 {totalPoints}/50 points
               </span>
               {todayCheckin ? (
-                <span className="rounded-full bg-success/10 px-3 py-1.5 text-xs font-black text-success">
+                <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black text-[#F8DFA7] ring-1 ring-white/10">
                   Editing today
                 </span>
               ) : null}
             </div>
           </div>
-          <ProgressRing value={scorePercent} label="Score" />
+          <ProgressRing value={scorePercent} label="Score" className="rounded-full bg-white/10 p-2" />
         </div>
-      </PremiumCard>
+      </section>
 
-      <div className="grid gap-3">
+      <div className="grid gap-3 md:grid-cols-2">
         {habits.map((habit) => {
           const Icon = habit.icon;
           const checked = values[habit.key];
@@ -87,7 +87,7 @@ export function HabitCheckInForm({ todayCheckin }: HabitCheckInFormProps) {
             <label
               key={habit.key}
               className={cn(
-                "premium-shadow flex cursor-pointer items-start gap-3 rounded-[22px] border bg-white p-4 transition",
+                "premium-shadow flex cursor-pointer items-start gap-3 rounded-[24px] border bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-xl",
                 checked
                   ? "border-gold/45 bg-gold/10"
                   : "border-border-soft hover:border-gold/35 hover:bg-white"
@@ -165,9 +165,9 @@ export function HabitCheckInForm({ todayCheckin }: HabitCheckInFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+          className="tap-target mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
         >
-          {isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
+          {isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : state.status === "success" ? <Sparkles className="h-5 w-5" /> : <Save className="h-5 w-5" />}
           {todayCheckin ? "Update Today’s Progress" : "Submit Today’s Progress"}
         </button>
       </PremiumCard>

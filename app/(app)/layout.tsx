@@ -36,7 +36,7 @@ export default async function ProtectedAppLayout({
     <div className="min-h-screen pb-24 md:pb-0">
       <DesktopSidebar profile={profile as Profile} />
       <MobileTopBar profile={profile as Profile} />
-      <main className="mx-auto w-full max-w-6xl px-4 py-5 md:ml-72 md:px-8 md:py-8">
+      <main className="mx-auto w-full max-w-7xl px-4 py-5 md:ml-72 md:px-8 md:py-8">
         {children}
       </main>
       <BottomNavigation />

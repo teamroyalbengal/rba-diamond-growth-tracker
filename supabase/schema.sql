@@ -30,6 +30,11 @@ create table if not exists public.daily_checkins (
   checkin_date date not null,
   morning_meditation boolean not null default false,
   body_energy boolean not null default false,
+  deep_learning boolean not null default false,
+  five_hour_deep_work boolean not null default false,
+  family_time boolean not null default false,
+  goal_card_affirmation boolean not null default false,
+  -- Legacy habit columns are kept so existing historic check-ins remain readable.
   deep_work boolean not null default false,
   content_action boolean not null default false,
   community_action boolean not null default false,
@@ -154,10 +159,10 @@ for each row execute function public.handle_new_user();
 create or replace function public.calculate_checkin_points(
   morning_meditation boolean,
   body_energy boolean,
-  deep_work boolean,
-  content_action boolean,
-  community_action boolean,
-  launch_asset boolean,
+  deep_learning boolean,
+  five_hour_deep_work boolean,
+  family_time boolean,
+  goal_card_affirmation boolean,
   evening_reflection boolean
 )
 returns integer
@@ -167,10 +172,10 @@ as $$
   select
     case when morning_meditation then 8 else 0 end +
     case when body_energy then 6 else 0 end +
-    case when deep_work then 8 else 0 end +
-    case when content_action then 8 else 0 end +
-    case when community_action then 6 else 0 end +
-    case when launch_asset then 8 else 0 end +
+    case when deep_learning then 6 else 0 end +
+    case when five_hour_deep_work then 10 else 0 end +
+    case when family_time then 6 else 0 end +
+    case when goal_card_affirmation then 8 else 0 end +
     case when evening_reflection then 6 else 0 end;
 $$;
 
@@ -182,10 +187,10 @@ begin
   new.total_points := public.calculate_checkin_points(
     new.morning_meditation,
     new.body_energy,
-    new.deep_work,
-    new.content_action,
-    new.community_action,
-    new.launch_asset,
+    new.deep_learning,
+    new.five_hour_deep_work,
+    new.family_time,
+    new.goal_card_affirmation,
     new.evening_reflection
   );
   return new;

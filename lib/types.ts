@@ -29,10 +29,10 @@ export type DailyCheckin = {
   checkin_date: string;
   morning_meditation: boolean;
   body_energy: boolean;
-  deep_work: boolean;
-  content_action: boolean;
-  community_action: boolean;
-  launch_asset: boolean;
+  deep_learning: boolean;
+  five_hour_deep_work: boolean;
+  family_time: boolean;
+  goal_card_affirmation: boolean;
   evening_reflection: boolean;
   total_points: number;
   notes: string | null;

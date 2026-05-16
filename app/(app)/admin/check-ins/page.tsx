@@ -40,7 +40,7 @@ export default async function AdminCheckInsPage({ searchParams }: AdminCheckInsP
         <form className="flex flex-col gap-3 sm:flex-row sm:items-end">
           <label className="flex-1">
             <span className="mb-2 block text-sm font-bold text-navy">Check-in date</span>
-            <div className="flex items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3">
+            <div className="flex min-h-14 items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 shadow-sm focus-within:border-gold focus-within:shadow-md">
               <CalendarDays className="h-5 w-5 text-brown" />
               <input
                 type="date"
@@ -50,7 +50,7 @@ export default async function AdminCheckInsPage({ searchParams }: AdminCheckInsP
               />
             </div>
           </label>
-          <button className="rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white">
+          <button className="tap-target rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white shadow-lg shadow-navy/10">
             Filter
           </button>
         </form>
@@ -75,7 +75,7 @@ export default async function AdminCheckInsPage({ searchParams }: AdminCheckInsP
               </div>
               <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
                 {habits.map((habit) => (
-                  <label key={habit.key} className="flex items-center gap-2 rounded-2xl border border-border-soft bg-background/60 px-3 py-2">
+                  <label key={habit.key} className="flex min-h-12 items-center gap-2 rounded-2xl border border-border-soft bg-white/66 px-3 py-2">
                     <input
                       type="checkbox"
                       name={habit.key}
@@ -91,15 +91,15 @@ export default async function AdminCheckInsPage({ searchParams }: AdminCheckInsP
                   name="notes"
                   defaultValue={checkin.notes || ""}
                   placeholder="Admin note or member note"
-                  className="rounded-2xl border border-border-soft bg-white px-4 py-3 text-sm text-navy outline-none focus:border-gold"
+                  className="rounded-2xl border border-border-soft bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:border-gold"
                 />
                 <input
                   name="reason"
                   placeholder="Correction reason"
-                  className="rounded-2xl border border-border-soft bg-white px-4 py-3 text-sm text-navy outline-none focus:border-gold"
+                  className="rounded-2xl border border-border-soft bg-white px-4 py-3 text-sm text-navy shadow-sm outline-none focus:border-gold"
                 />
               </div>
-              <button className="rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white">
+              <button className="tap-target rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white shadow-lg shadow-navy/10">
                 Save Correction
               </button>
             </form>

@@ -44,7 +44,7 @@ export default async function AdminWeeklyReviewsPage({ searchParams }: AdminWeek
         <form className="grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
           <label>
             <span className="mb-2 block text-sm font-bold text-navy">Week start</span>
-            <div className="flex items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3">
+            <div className="flex min-h-14 items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 shadow-sm focus-within:border-gold focus-within:shadow-md">
               <CalendarDays className="h-5 w-5 text-brown" />
               <input
                 type="date"
@@ -60,10 +60,10 @@ export default async function AdminWeeklyReviewsPage({ searchParams }: AdminWeek
               name="q"
               defaultValue={q}
               placeholder="Name or email"
-              className="h-[50px] w-full rounded-2xl border border-border-soft bg-white px-4 text-base text-navy outline-none focus:border-gold"
+              className="h-[56px] w-full rounded-2xl border border-border-soft bg-white px-4 text-base text-navy shadow-sm outline-none focus:border-gold focus:shadow-md"
             />
           </label>
-          <button className="rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white">Filter</button>
+          <button className="tap-target rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white shadow-lg shadow-navy/10">Filter</button>
         </form>
       </PremiumCard>
 
@@ -79,7 +79,7 @@ export default async function AdminWeeklyReviewsPage({ searchParams }: AdminWeek
               </div>
               <form action={markReviewReviewed} className="flex items-center gap-3">
                 <input type="hidden" name="review_id" value={review.id} />
-                <label className="flex items-center gap-2 rounded-2xl border border-border-soft bg-background/60 px-4 py-3">
+                <label className="flex items-center gap-2 rounded-2xl border border-border-soft bg-white/66 px-4 py-3">
                   <input
                     type="checkbox"
                     name="reviewed"
@@ -88,7 +88,7 @@ export default async function AdminWeeklyReviewsPage({ searchParams }: AdminWeek
                   />
                   <span className="text-sm font-black text-navy">Reviewed</span>
                 </label>
-                <button className="rounded-2xl bg-navy px-4 py-3 text-sm font-black text-white">Save</button>
+                <button className="tap-target rounded-2xl bg-navy px-4 py-3 text-sm font-black text-white shadow-lg shadow-navy/10">Save</button>
               </form>
             </div>
 
@@ -126,7 +126,7 @@ export default async function AdminWeeklyReviewsPage({ searchParams }: AdminWeek
 
 function ReviewBlock({ label, value }: { label: string; value: string | null }) {
   return (
-    <div className="rounded-2xl border border-border-soft bg-background/60 p-4">
+    <div className="rounded-2xl border border-border-soft bg-white/66 p-4">
       <p className="text-xs font-black uppercase tracking-[0.12em] text-brown">{label}</p>
       <p className="mt-2 text-sm leading-6 text-navy">{value || "-"}</p>
     </div>

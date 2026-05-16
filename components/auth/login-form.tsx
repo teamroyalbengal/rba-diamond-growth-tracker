@@ -45,8 +45,8 @@ export function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <label className="block">
-        <span className="mb-2 block text-sm font-semibold text-navy">Email</span>
-        <span className="flex items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 focus-within:border-gold">
+        <span className="mb-2 block text-sm font-black text-navy">Email</span>
+        <span className="flex min-h-14 items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 shadow-sm transition focus-within:border-gold focus-within:shadow-md">
           <Mail className="h-5 w-5 text-brown" />
           <input
             required
@@ -60,8 +60,8 @@ export function LoginForm() {
       </label>
 
       <label className="block">
-        <span className="mb-2 block text-sm font-semibold text-navy">Password</span>
-        <span className="flex items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 focus-within:border-gold">
+        <span className="mb-2 block text-sm font-black text-navy">Password</span>
+        <span className="flex min-h-14 items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 shadow-sm transition focus-within:border-gold focus-within:shadow-md">
           <LockKeyhole className="h-5 w-5 text-brown" />
           <input
             required
@@ -91,7 +91,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-bold text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:cursor-not-allowed disabled:opacity-70"
+        className="tap-target flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:cursor-not-allowed disabled:opacity-70"
       >
         {isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : null}
         Login to Diamond Tracker

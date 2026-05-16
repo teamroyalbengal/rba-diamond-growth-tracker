@@ -20,7 +20,7 @@ export default async function WeeklyReviewPage() {
     .maybeSingle();
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-4xl">
       <WeeklyReviewForm review={(review || null) as WeeklyReview | null} />
     </div>
   );

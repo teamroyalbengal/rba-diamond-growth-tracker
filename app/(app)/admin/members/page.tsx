@@ -35,7 +35,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
 
       <PremiumCard>
         <form className="flex gap-3">
-          <div className="flex flex-1 items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3">
+          <div className="flex min-h-14 flex-1 items-center gap-3 rounded-2xl border border-border-soft bg-white px-4 py-3 shadow-sm focus-within:border-gold focus-within:shadow-md">
             <Search className="h-5 w-5 text-brown" />
             <input
               name="q"
@@ -44,14 +44,14 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
               className="min-w-0 flex-1 bg-transparent text-base text-navy outline-none placeholder:text-brown/45"
             />
           </div>
-          <button className="rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white">Search</button>
+          <button className="tap-target rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white shadow-lg shadow-navy/10">Search</button>
         </form>
       </PremiumCard>
 
       <div className="space-y-3">
         {typedMembers.map((member) => (
           <PremiumCard key={member.id}>
-            <form action={updateMemberAdmin} className="grid gap-4 lg:grid-cols-[1fr_220px_160px_auto] lg:items-center">
+            <form action={updateMemberAdmin} className="grid gap-4 xl:grid-cols-[1fr_240px_170px_auto] xl:items-center">
               <input type="hidden" name="member_id" value={member.id} />
               <div className="min-w-0">
                 <p className="truncate text-lg font-black text-navy">{member.full_name || "Diamond Member"}</p>
@@ -65,7 +65,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
                 <select
                   name="current_stage"
                   defaultValue={member.current_stage}
-                  className="h-12 w-full rounded-2xl border border-border-soft bg-white px-3 text-sm font-bold text-navy outline-none focus:border-gold"
+                  className="h-[52px] w-full rounded-2xl border border-border-soft bg-white px-3 text-sm font-bold text-navy shadow-sm outline-none focus:border-gold"
                 >
                   {diamondStages.map((stage) => (
                     <option key={stage} value={stage}>
@@ -74,7 +74,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
                   ))}
                 </select>
               </label>
-              <label className="flex items-center gap-3 rounded-2xl border border-border-soft bg-background/60 px-4 py-3">
+              <label className="flex min-h-[52px] items-center gap-3 rounded-2xl border border-border-soft bg-white/66 px-4 py-3">
                 <input
                   type="checkbox"
                   name="is_active"
@@ -83,7 +83,7 @@ export default async function AdminMembersPage({ searchParams }: AdminMembersPag
                 />
                 <span className="text-sm font-black text-navy">Active</span>
               </label>
-              <button className="rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white">
+              <button className="tap-target rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white shadow-lg shadow-navy/10">
                 Save
               </button>
             </form>

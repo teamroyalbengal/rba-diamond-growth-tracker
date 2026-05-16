@@ -27,7 +27,7 @@ export function LeaderboardTable({ members, currentUserId }: LeaderboardTablePro
         ))}
       </div>
 
-      <div className="hidden overflow-hidden rounded-[22px] border border-border-soft bg-white shadow-sm md:block">
+      <div className="hidden overflow-hidden rounded-[24px] border border-border-soft bg-white shadow-xl shadow-navy/5 md:block">
         <table className="w-full border-collapse">
           <thead className="bg-background/80 text-left">
             <tr className="text-xs font-black uppercase tracking-[0.14em] text-brown">
@@ -45,7 +45,7 @@ export function LeaderboardTable({ members, currentUserId }: LeaderboardTablePro
               return (
                 <tr
                   key={member.user_id}
-                  className={isCurrent ? "bg-gold/10" : "border-t border-border-soft"}
+                  className={isCurrent ? "bg-gold/10" : "border-t border-border-soft transition hover:bg-background/55"}
                 >
                   <td className="px-5 py-4">
                     <RankMark rank={member.rank} />
@@ -76,7 +76,7 @@ export function LeaderboardTable({ members, currentUserId }: LeaderboardTablePro
 function LeaderboardCard({ member, isCurrent }: { member: LeaderboardMember; isCurrent: boolean }) {
   return (
     <div
-      className={`premium-shadow rounded-[22px] border p-4 ${
+      className={`premium-shadow rounded-[24px] border p-4 ${
         isCurrent ? "border-gold/45 bg-gold/10" : "border-border-soft bg-white"
       }`}
     >

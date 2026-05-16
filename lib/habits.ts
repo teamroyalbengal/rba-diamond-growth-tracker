@@ -1,11 +1,11 @@
 import {
   BookOpenCheck,
+  BriefcaseBusiness,
   Dumbbell,
+  HeartHandshake,
   type LucideIcon,
-  MessageCircleMore,
   Moon,
-  PenLine,
-  Rocket,
+  ScrollText,
   Sunrise
 } from "lucide-react";
 import type { DailyCheckin } from "@/lib/types";
@@ -13,10 +13,10 @@ import type { DailyCheckin } from "@/lib/types";
 export type HabitKey =
   | "morning_meditation"
   | "body_energy"
-  | "deep_work"
-  | "content_action"
-  | "community_action"
-  | "launch_asset"
+  | "deep_learning"
+  | "five_hour_deep_work"
+  | "family_time"
+  | "goal_card_affirmation"
   | "evening_reflection";
 
 export type Habit = {
@@ -33,7 +33,7 @@ export const habits: Habit[] = [
     key: "morning_meditation",
     name: "Morning Meditation",
     category: "Self",
-    description: "Start calm, focused, and intentional.",
+    description: "Start your day with inner clarity.",
     points: 8,
     icon: Sunrise
   },
@@ -41,47 +41,47 @@ export const habits: Habit[] = [
     key: "body_energy",
     name: "Body Energy",
     category: "Self",
-    description: "Move, walk, stretch, or train your body.",
+    description: "Walking, exercise, yoga, or body activation.",
     points: 6,
     icon: Dumbbell
   },
   {
-    key: "deep_work",
-    name: "Deep Learning / Deep Work",
+    key: "deep_learning",
+    name: "Deep Learning",
     category: "Skill",
-    description: "Build mastery with focused learning or creation.",
-    points: 8,
+    description: "Focused learning for your growth.",
+    points: 6,
     icon: BookOpenCheck
   },
   {
-    key: "content_action",
-    name: "Content Creation Action",
+    key: "five_hour_deep_work",
+    name: "5 Hour Deep Work",
     category: "Launch",
-    description: "Post, script, record, write, or publish.",
-    points: 8,
-    icon: PenLine
+    description: "Serious work on your core goals.",
+    points: 10,
+    icon: BriefcaseBusiness
   },
   {
-    key: "community_action",
-    name: "Community / Lead Action",
-    category: "Launch",
-    description: "Start conversations and nurture warm leads.",
+    key: "family_time",
+    name: "Family Time",
+    category: "Self",
+    description: "Spend meaningful time with family.",
     points: 6,
-    icon: MessageCircleMore
+    icon: HeartHandshake
   },
   {
-    key: "launch_asset",
-    name: "Launch Asset Building",
-    category: "Launch",
-    description: "Build offer, curriculum, page, workshop, or funnel asset.",
+    key: "goal_card_affirmation",
+    name: "Goal Card & Affirmation",
+    category: "Self",
+    description: "Read goal card and affirm your identity.",
     points: 8,
-    icon: Rocket
+    icon: ScrollText
   },
   {
     key: "evening_reflection",
     name: "Evening Reflection",
     category: "Self",
-    description: "Review the day and choose tomorrow’s next action.",
+    description: "Review your day and reset your mind.",
     points: 6,
     icon: Moon
   }

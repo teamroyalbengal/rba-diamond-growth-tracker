@@ -21,7 +21,7 @@ export default async function CheckInPage() {
     .maybeSingle();
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto max-w-5xl">
       <HabitCheckInForm todayCheckin={(todayCheckin || null) as DailyCheckin | null} />
     </div>
   );

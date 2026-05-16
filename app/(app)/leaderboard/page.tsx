@@ -29,7 +29,7 @@ export default async function LeaderboardPage({ searchParams }: LeaderboardPageP
 
   return (
     <div className="space-y-5">
-      <section className="rounded-[28px] bg-navy p-5 text-white shadow-2xl shadow-navy/15 md:p-7">
+      <section className="rba-hero rounded-[30px] p-5 text-white shadow-2xl shadow-navy/15 md:p-8">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.14em] text-[#F8DFA7]">

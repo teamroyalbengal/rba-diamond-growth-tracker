@@ -27,30 +27,32 @@ export default async function ProfilePage() {
   const typedProfile = profile as Profile;
 
   return (
-    <div className="mx-auto max-w-2xl space-y-5">
-      <PremiumCard>
-        <div className="flex items-center gap-4">
+    <div className="mx-auto max-w-4xl space-y-5">
+      <section className="rba-hero overflow-hidden rounded-[30px] p-5 text-white shadow-2xl shadow-navy/15 md:p-7">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
           {typedProfile.avatar_url ? (
             <div
-              className="h-20 w-20 shrink-0 rounded-[26px] bg-cover bg-center shadow-sm ring-1 ring-border-soft"
+              className="h-24 w-24 shrink-0 rounded-[28px] bg-cover bg-center shadow-lg shadow-black/10 ring-1 ring-white/20"
               style={{ backgroundImage: `url(${typedProfile.avatar_url})` }}
             />
           ) : (
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] bg-navy text-2xl font-black text-gold">
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-[28px] bg-white/10 text-3xl font-black text-gold ring-1 ring-white/12">
               {getInitials(typedProfile.full_name, typedProfile.email)}
             </div>
           )}
           <div className="min-w-0">
-            <h1 className="truncate text-3xl font-black text-navy">
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-[#F8DFA7]">Member Profile</p>
+            <h1 className="mt-2 truncate text-3xl font-black text-white sm:text-4xl">
               {typedProfile.full_name || "Diamond Member"}
             </h1>
             <div className="mt-2">
-              <StageBadge stage={typedProfile.current_stage} />
+              <StageBadge stage={typedProfile.current_stage} className="border-white/15 bg-white/10 text-[#F8DFA7]" />
             </div>
           </div>
         </div>
-      </PremiumCard>
+      </section>
 
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
       <PremiumCard>
         <h2 className="mb-4 text-xl font-black text-navy">Profile Details</h2>
         <div className="space-y-3">
@@ -66,6 +68,7 @@ export default async function ProfilePage() {
         <h2 className="mb-4 text-xl font-black text-navy">Edit Profile</h2>
         <ProfileForm profile={typedProfile} />
       </PremiumCard>
+      </div>
 
       <LogoutButton />
     </div>
@@ -82,7 +85,7 @@ function ProfileRow({
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-border-soft bg-background/60 p-4">
+    <div className="flex items-center gap-3 rounded-2xl border border-border-soft bg-white/66 p-4">
       <Icon className="h-5 w-5 text-gold-dark" />
       <div>
         <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown">{label}</p>

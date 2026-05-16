@@ -42,9 +42,16 @@ export function LeaderboardPreview({
               <div className="flex h-9 w-9 items-center justify-center rounded-full bg-navy text-xs font-black text-gold">
                 #{member.rank}
               </div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-black text-navy ring-1 ring-border-soft">
-                {getInitials(member.full_name, null)}
-              </div>
+              {member.avatar_url ? (
+                <div
+                  className="h-10 w-10 shrink-0 rounded-full bg-cover bg-center ring-1 ring-border-soft"
+                  style={{ backgroundImage: `url(${member.avatar_url})` }}
+                />
+              ) : (
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-sm font-black text-navy ring-1 ring-border-soft">
+                  {getInitials(member.full_name, null)}
+                </div>
+              )}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-black text-navy">
                   {member.full_name || "Diamond Member"}

@@ -14,8 +14,8 @@ export function PremiumCard({
   return (
     <div
       className={cn(
-        "premium-shadow soft-ring animate-card-in rounded-[22px] bg-card/95",
-        padded && "p-5",
+        "premium-shadow soft-ring rba-panel animate-card-in rounded-[24px]",
+        padded && "p-5 sm:p-6",
         className
       )}
       {...props}

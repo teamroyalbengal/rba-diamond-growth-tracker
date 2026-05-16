@@ -25,13 +25,14 @@ export function DashboardCard({
   tone = "gold"
 }: DashboardCardProps) {
   return (
-    <PremiumCard>
+    <PremiumCard className="relative overflow-hidden">
+      <div className="pointer-events-none absolute right-0 top-0 h-20 w-20 rounded-bl-[40px] bg-gold/5" />
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-bold text-brown">{label}</p>
-          <h2 className="mt-2 text-2xl font-black text-navy">{value}</h2>
+        <div className="min-w-0">
+          <p className="text-sm font-black text-brown">{label}</p>
+          <h2 className="mt-2 truncate text-2xl font-black text-navy">{value}</h2>
         </div>
-        <div className={cn("rounded-2xl p-3", toneClasses[tone])}>
+        <div className={cn("relative rounded-2xl p-3 shadow-sm", toneClasses[tone])}>
           <Icon className="h-6 w-6" />
         </div>
       </div>

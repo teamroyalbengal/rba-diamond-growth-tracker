@@ -18,7 +18,7 @@ export default function AdminSettingsPage() {
             const Icon = habit.icon;
 
             return (
-              <div key={habit.key} className="flex items-start gap-3 rounded-2xl border border-border-soft bg-background/60 p-4">
+              <div key={habit.key} className="flex items-start gap-3 rounded-2xl border border-border-soft bg-white/66 p-4">
                 <div className="rounded-2xl bg-gold/10 p-3 text-gold-dark">
                   <Icon className="h-5 w-5" />
                 </div>

@@ -10,14 +10,15 @@ type AdminStatsCardProps = {
 
 export function AdminStatsCard({ label, value, description, icon: Icon }: AdminStatsCardProps) {
   return (
-    <PremiumCard>
+    <PremiumCard className="relative overflow-hidden">
+      <div className="pointer-events-none absolute right-0 top-0 h-20 w-20 rounded-bl-[40px] bg-gold/5" />
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-bold text-brown">{label}</p>
-          <h2 className="mt-2 text-3xl font-black text-navy">{value}</h2>
+        <div className="relative">
+          <p className="text-sm font-black text-brown">{label}</p>
+          <h2 className="mt-2 text-4xl font-black tracking-tight text-navy">{value}</h2>
           <p className="mt-2 text-sm leading-6 text-brown">{description}</p>
         </div>
-        <div className="rounded-2xl bg-gold/10 p-3 text-gold-dark">
+        <div className="relative rounded-2xl bg-gold/10 p-3 text-gold-dark shadow-sm">
           <Icon className="h-6 w-6" />
         </div>
       </div>

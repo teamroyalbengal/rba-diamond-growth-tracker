@@ -37,7 +37,7 @@ export default async function AdminLeaderboardPage({ searchParams }: AdminLeader
           </div>
           <a
             href={`/admin/leaderboard/export?period=${activePeriod}`}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white"
+            className="tap-target inline-flex items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3 text-sm font-black text-white shadow-lg shadow-navy/10"
           >
             <Download className="h-4 w-4" />
             Export CSV

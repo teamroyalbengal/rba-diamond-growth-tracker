@@ -64,7 +64,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       <button
         type="submit"
         disabled={isPending}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+        className="tap-target inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
       >
         {isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <CheckCircle2 className="h-5 w-5" />}
         Save Profile
@@ -99,7 +99,7 @@ function ProfileField({
         defaultValue={defaultValue}
         placeholder={placeholder}
         required={required}
-        className="w-full rounded-2xl border border-border-soft bg-background/70 px-4 py-3 text-sm font-bold text-navy outline-none transition focus:border-gold focus:bg-white"
+        className="min-h-[52px] w-full rounded-2xl border border-border-soft bg-white px-4 py-3 text-sm font-bold text-navy shadow-sm outline-none transition focus:border-gold focus:shadow-md"
       />
     </label>
   );

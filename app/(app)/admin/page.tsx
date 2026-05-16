@@ -62,9 +62,9 @@ export default async function AdminPage() {
 
   return (
     <div className="space-y-5">
-      <section className="rounded-[28px] bg-navy p-5 text-white shadow-2xl shadow-navy/15 md:p-7">
+      <section className="rba-hero rounded-[30px] p-5 text-white shadow-2xl shadow-navy/15 md:p-8">
         <p className="text-sm font-black uppercase tracking-[0.18em] text-[#F8DFA7]">Admin Dashboard</p>
-        <h1 className="mt-3 text-3xl font-black md:text-4xl">RBA Diamond Control Room</h1>
+        <h1 className="mt-3 text-3xl font-black md:text-5xl">RBA Diamond Control Room</h1>
         <p className="mt-3 max-w-2xl text-base leading-7 text-white/78">
           Track member momentum, stage health, submissions, and support needs.
         </p>
@@ -89,7 +89,7 @@ export default async function AdminPage() {
           </div>
           <div className="space-y-3">
             {leaderboardResult.members.map((member: LeaderboardMember) => (
-              <div key={member.user_id} className="flex items-center justify-between rounded-2xl border border-border-soft bg-background/60 p-3">
+              <div key={member.user_id} className="flex items-center justify-between rounded-2xl border border-border-soft bg-white/66 p-3">
                 <div>
                   <p className="font-black text-navy">#{member.rank} {member.full_name || "Diamond Member"}</p>
                   <p className="mt-1 text-sm font-bold text-brown">{member.streak} day streak</p>
@@ -97,7 +97,7 @@ export default async function AdminPage() {
                 <p className="text-xl font-black text-navy">{member.points}</p>
               </div>
             ))}
-            {!leaderboardResult.members.length ? <p className="text-sm text-brown">No check-ins yet.</p> : null}
+            {!leaderboardResult.members.length ? <p className="rounded-2xl border border-dashed border-border-soft bg-white/66 p-4 text-sm font-bold text-brown">No check-ins yet.</p> : null}
           </div>
         </PremiumCard>
 
@@ -132,7 +132,7 @@ export default async function AdminPage() {
           </div>
           <div className="space-y-3">
             {inactiveMembers.slice(0, 6).map((member) => (
-              <div key={member.id} className="flex items-center justify-between rounded-2xl border border-border-soft bg-background/60 p-3">
+              <div key={member.id} className="flex items-center justify-between gap-3 rounded-2xl border border-border-soft bg-white/66 p-3">
                 <div>
                   <p className="font-black text-navy">{member.full_name || "Diamond Member"}</p>
                   <p className="text-sm font-bold text-brown">{member.email}</p>
@@ -154,7 +154,7 @@ export default async function AdminPage() {
           </div>
           <div className="space-y-3">
             {((recentReviews || []) as Array<WeeklyReview & { profiles?: Pick<Profile, "full_name" | "email" | "current_stage"> }>).map((review) => (
-              <div key={review.id} className="rounded-2xl border border-border-soft bg-background/60 p-3">
+              <div key={review.id} className="rounded-2xl border border-border-soft bg-white/66 p-3">
                 <p className="font-black text-navy">{review.profiles?.full_name || review.profiles?.email || "Diamond Member"}</p>
                 <p className="mt-1 text-sm leading-6 text-brown">{review.biggest_win}</p>
               </div>
@@ -176,7 +176,7 @@ export default async function AdminPage() {
 
 function AdminLink({ href, label, icon: Icon }: { href: string; label: string; icon: LucideIcon }) {
   return (
-    <Link href={href} className="flex items-center justify-center gap-2 rounded-2xl border border-border-soft bg-white px-4 py-4 text-sm font-black text-navy shadow-sm">
+    <Link href={href} className="tap-target flex items-center justify-center gap-2 rounded-2xl border border-border-soft bg-white px-4 py-4 text-sm font-black text-navy shadow-sm transition hover:border-gold/35 hover:shadow-md">
       <Icon className="h-4 w-4 text-gold-dark" />
       {label}
     </Link>

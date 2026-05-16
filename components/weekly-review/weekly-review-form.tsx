@@ -3,7 +3,7 @@
 import type { InputHTMLAttributes } from "react";
 import { useActionState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Loader2, Save } from "lucide-react";
+import { CheckCircle2, Loader2, Save, Sparkles } from "lucide-react";
 import { saveWeeklyReview, type WeeklyReviewActionState } from "@/app/actions/weekly-review";
 import type { WeeklyReview } from "@/lib/types";
 import { PremiumCard } from "@/components/ui/premium-card";
@@ -31,27 +31,31 @@ export function WeeklyReviewForm({ review }: WeeklyReviewFormProps) {
 
   return (
     <form action={action} className="space-y-5">
-      <PremiumCard>
+      <section className="rba-hero overflow-hidden rounded-[30px] p-5 text-white shadow-2xl shadow-navy/15 md:p-7">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.16em] text-gold-dark">
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-[#F8DFA7]">
               Weekly Growth Reflection
             </p>
-            <h1 className="mt-2 text-3xl font-black text-navy">এই সপ্তাহের review</h1>
-            <p className="mt-2 text-base leading-7 text-brown">
+            <h1 className="mt-2 text-3xl font-black text-white sm:text-4xl">এই সপ্তাহের review</h1>
+            <p className="mt-2 max-w-2xl text-base leading-7 text-white/78">
               Capture wins, struggles, launch action, and the support you need from RBA.
             </p>
           </div>
           {review ? (
-            <span className="inline-flex items-center gap-2 rounded-full bg-success/10 px-3 py-1.5 text-xs font-black text-success">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-xs font-black text-[#F8DFA7] ring-1 ring-white/10">
               <CheckCircle2 className="h-4 w-4" />
               Submitted this week
             </span>
           ) : null}
         </div>
-      </PremiumCard>
+      </section>
 
       <PremiumCard>
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-gold/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.12em] text-gold-dark">
+          <Sparkles className="h-3.5 w-3.5" />
+          Weekly clarity
+        </div>
         <div className="grid gap-4">
           <ReviewTextarea
             name="biggest_win"
@@ -85,7 +89,7 @@ export function WeeklyReviewForm({ review }: WeeklyReviewFormProps) {
               <select
                 name="youtube_published"
                 defaultValue={review?.youtube_published ? "yes" : "no"}
-                className="mt-2 h-[50px] w-full rounded-2xl border border-border-soft bg-white px-4 text-base font-bold text-navy outline-none focus:border-gold"
+                className="mt-2 h-[54px] w-full rounded-2xl border border-border-soft bg-white px-4 text-base font-bold text-navy shadow-sm outline-none transition focus:border-gold focus:shadow-md"
               >
                 <option value="no">No</option>
                 <option value="yes">Yes</option>
@@ -135,7 +139,7 @@ export function WeeklyReviewForm({ review }: WeeklyReviewFormProps) {
         <button
           type="submit"
           disabled={isPending}
-          className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:opacity-70 sm:w-auto"
+          className="tap-target mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-navy px-5 py-3.5 text-base font-black text-white shadow-lg shadow-navy/15 transition hover:bg-navy/95 disabled:opacity-70 sm:w-auto"
         >
           {isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Save className="h-5 w-5" />}
           {review ? "Update Weekly Review" : "Submit Weekly Review"}
@@ -169,7 +173,7 @@ function ReviewTextarea({
         maxLength={1200}
         placeholder={placeholder}
         defaultValue={defaultValue || ""}
-        className="mt-2 w-full resize-none rounded-2xl border border-border-soft bg-white px-4 py-3 text-base text-navy outline-none transition placeholder:text-brown/45 focus:border-gold"
+        className="mt-2 w-full resize-none rounded-2xl border border-border-soft bg-white px-4 py-3 text-base text-navy shadow-sm outline-none transition placeholder:text-brown/45 focus:border-gold focus:shadow-md"
       />
     </label>
   );
@@ -190,7 +194,7 @@ function ReviewInput({
       <input
         name={name}
         defaultValue={defaultValue}
-        className="mt-2 h-[50px] w-full rounded-2xl border border-border-soft bg-white px-4 text-base font-bold text-navy outline-none focus:border-gold"
+        className="mt-2 h-[54px] w-full rounded-2xl border border-border-soft bg-white px-4 text-base font-bold text-navy shadow-sm outline-none transition focus:border-gold focus:shadow-md"
         {...props}
       />
     </label>

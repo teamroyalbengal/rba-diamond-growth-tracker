@@ -5,6 +5,7 @@ create table if not exists public.profiles (
   full_name text,
   email text,
   phone text,
+  city text,
   avatar_url text,
   role text not null default 'member' check (role in ('admin', 'member')),
   current_stage text not null default 'Starter' check (
@@ -316,6 +317,12 @@ drop policy if exists "Members can read own profile" on public.profiles;
 create policy "Members can read own profile"
 on public.profiles for select
 using (auth.uid() = id);
+
+drop policy if exists "Members can update own profile" on public.profiles;
+create policy "Members can update own profile"
+on public.profiles for update
+using (auth.uid() = id)
+with check (auth.uid() = id);
 
 drop policy if exists "Admins can manage profiles" on public.profiles;
 create policy "Admins can manage profiles"

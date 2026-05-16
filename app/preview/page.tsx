@@ -10,6 +10,7 @@ const previewProfile: Profile = {
   full_name: "RBA Diamond Member",
   email: "member@royalbengalacademy.com",
   phone: null,
+  city: null,
   avatar_url: null,
   role: "member",
   current_stage: "Launch Finisher",

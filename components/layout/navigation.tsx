@@ -57,9 +57,16 @@ export function DesktopSidebar({ profile }: NavigationProps) {
             href="/profile"
             className="flex items-center gap-3 rounded-2xl border border-border-soft bg-background/70 p-3"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-sm font-black text-gold">
-              {getInitials(profile.full_name, profile.email)}
-            </div>
+            {profile.avatar_url ? (
+              <div
+                className="h-10 w-10 shrink-0 rounded-full bg-cover bg-center ring-1 ring-border-soft"
+                style={{ backgroundImage: `url(${profile.avatar_url})` }}
+              />
+            ) : (
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-navy text-sm font-black text-gold">
+                {getInitials(profile.full_name, profile.email)}
+              </div>
+            )}
             <div className="min-w-0">
               <p className="truncate text-sm font-bold text-navy">
                 {profile.full_name || "Diamond Member"}
@@ -112,7 +119,14 @@ export function MobileTopBar({ profile }: NavigationProps) {
           href="/profile"
           className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-black text-navy shadow-sm ring-1 ring-border-soft"
         >
-          {getInitials(profile.full_name, profile.email)}
+          {profile.avatar_url ? (
+            <span
+              className="h-full w-full rounded-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${profile.avatar_url})` }}
+            />
+          ) : (
+            getInitials(profile.full_name, profile.email)
+          )}
         </Link>
       </div>
     </header>

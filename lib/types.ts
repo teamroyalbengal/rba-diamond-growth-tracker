@@ -13,6 +13,7 @@ export type Profile = {
   full_name: string | null;
   email: string | null;
   phone: string | null;
+  city: string | null;
   avatar_url: string | null;
   role: UserRole;
   current_stage: DiamondStage;

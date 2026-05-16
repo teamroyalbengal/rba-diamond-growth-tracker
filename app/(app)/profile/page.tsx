@@ -1,12 +1,13 @@
 import type { ElementType } from "react";
 import { redirect } from "next/navigation";
-import { Mail, Phone, Shield, UserRound } from "lucide-react";
+import { Mail, MapPin, Phone, Shield, UserRound } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/lib/types";
 import { getInitials } from "@/lib/utils";
 import { PremiumCard } from "@/components/ui/premium-card";
 import { StageBadge } from "@/components/ui/stage-badge";
 import { LogoutButton } from "@/components/layout/logout-button";
+import { ProfileForm } from "@/components/profile/profile-form";
 
 export default async function ProfilePage() {
   const supabase = await createClient();
@@ -29,9 +30,16 @@ export default async function ProfilePage() {
     <div className="mx-auto max-w-2xl space-y-5">
       <PremiumCard>
         <div className="flex items-center gap-4">
-          <div className="flex h-20 w-20 items-center justify-center rounded-[26px] bg-navy text-2xl font-black text-gold">
-            {getInitials(typedProfile.full_name, typedProfile.email)}
-          </div>
+          {typedProfile.avatar_url ? (
+            <div
+              className="h-20 w-20 shrink-0 rounded-[26px] bg-cover bg-center shadow-sm ring-1 ring-border-soft"
+              style={{ backgroundImage: `url(${typedProfile.avatar_url})` }}
+            />
+          ) : (
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[26px] bg-navy text-2xl font-black text-gold">
+              {getInitials(typedProfile.full_name, typedProfile.email)}
+            </div>
+          )}
           <div className="min-w-0">
             <h1 className="truncate text-3xl font-black text-navy">
               {typedProfile.full_name || "Diamond Member"}
@@ -47,10 +55,16 @@ export default async function ProfilePage() {
         <h2 className="mb-4 text-xl font-black text-navy">Profile Details</h2>
         <div className="space-y-3">
           <ProfileRow icon={Mail} label="Email" value={typedProfile.email || "Not added"} />
+          <ProfileRow icon={MapPin} label="City" value={typedProfile.city || "Not added"} />
           <ProfileRow icon={Phone} label="Phone" value={typedProfile.phone || "Not added"} />
           <ProfileRow icon={Shield} label="Role" value={typedProfile.role} />
           <ProfileRow icon={UserRound} label="Status" value={typedProfile.is_active ? "Active" : "Inactive"} />
         </div>
+      </PremiumCard>
+
+      <PremiumCard>
+        <h2 className="mb-4 text-xl font-black text-navy">Edit Profile</h2>
+        <ProfileForm profile={typedProfile} />
       </PremiumCard>
 
       <LogoutButton />

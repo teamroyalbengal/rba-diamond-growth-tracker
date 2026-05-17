@@ -38,6 +38,23 @@ export function getMonthEndDateKey(dateKey = getTodayDateKey()) {
   return formatDateInAppTimeZone(endDate);
 }
 
+export function getMonthDateKeys(dateKey = getTodayDateKey()) {
+  const start = getMonthStartDateKey(dateKey);
+  const end = getMonthEndDateKey(dateKey);
+  const days = countDaysInclusive(start, end);
+  return Array.from({ length: days }, (_, index) => addDays(start, index));
+}
+
+export function formatDisplayDate(dateKey: string, options: Intl.DateTimeFormatOptions = {}) {
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: appTimeZone,
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    ...options
+  }).format(new Date(`${dateKey}T00:00:00+05:30`));
+}
+
 export function countDaysInclusive(startDateKey: string, endDateKey: string) {
   const start = new Date(`${startDateKey}T00:00:00+05:30`).getTime();
   const end = new Date(`${endDateKey}T00:00:00+05:30`).getTime();

@@ -40,6 +40,19 @@ export type DailyCheckin = {
   updated_at: string;
 };
 
+export type DailyTask = {
+  id: string;
+  user_id: string;
+  task_date: string;
+  task_order: number;
+  title: string;
+  note: string | null;
+  is_completed: boolean;
+  points: number;
+  created_at: string;
+  updated_at: string;
+};
+
 export type WeeklyReview = {
   id: string;
   user_id: string;
@@ -88,8 +101,12 @@ export const stageSummaries: Record<DiamondStage, string> = {
   "Bengal Legend": "₹50L milestone, team, facilitators, leadership ecosystem."
 };
 
-export const dailyTargetPoints = 50;
-export const weeklyTargetPoints = 350;
+export const habitTargetPoints = 50;
+export const taskTargetPoints = 30;
+export const dailyTargetPoints = 80;
+export const weeklyHabitTargetPoints = 350;
+export const weeklyTaskTargetPoints = 210;
+export const weeklyTargetPoints = 560;
 
 export const leaderboardPeriods: Array<{
   key: LeaderboardPeriod;

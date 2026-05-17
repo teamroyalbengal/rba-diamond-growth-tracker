@@ -26,13 +26,17 @@ export default async function AdminPage() {
   const [
     { data: members },
     { data: todayCheckins },
+    { data: todayTasks },
     { data: weekCheckins },
+    { data: weekTasks },
     { data: recentReviews },
     leaderboardResult
   ] = await Promise.all([
     supabase.from("profiles").select("*").order("joined_at", { ascending: false }),
     supabase.from("daily_checkins").select("user_id,total_points").eq("checkin_date", today),
+    supabase.from("daily_tasks").select("user_id,is_completed").eq("task_date", today),
     supabase.from("daily_checkins").select("user_id,checkin_date").gte("checkin_date", weekStart),
+    supabase.from("daily_tasks").select("user_id,task_date,is_completed").gte("task_date", weekStart),
     supabase
       .from("weekly_reviews")
       .select("*, profiles(full_name,email,current_stage)")
@@ -45,10 +49,17 @@ export default async function AdminPage() {
   const activeMembers = typedMembers.filter((member) => member.is_active);
   const activeMemberIds = new Set(activeMembers.map((member) => member.id));
   const todaySubmitters = new Set((todayCheckins || []).map((checkin) => checkin.user_id as string));
+  const todayTaskPlanners = new Set((todayTasks || []).map((task) => task.user_id as string));
+  const todayTaskCompleters = new Set(
+    ((todayTasks || []) as Array<{ user_id: string; is_completed: boolean }>)
+      .filter((task) => task.is_completed)
+      .map((task) => task.user_id)
+  );
   const activeTodaySubmitters = new Set(
     Array.from(todaySubmitters).filter((memberId) => activeMemberIds.has(memberId))
   );
   const weekActiveMembers = new Set((weekCheckins || []).map((checkin) => checkin.user_id as string));
+  const weekTaskMembers = new Set((weekTasks || []).map((task) => task.user_id as string));
   const recentActiveMembers = new Set(
     ((weekCheckins || []) as Array<{ user_id: string; checkin_date: string }>)
       .filter((checkin) => checkin.checkin_date >= threeDaysAgo)
@@ -73,8 +84,12 @@ export default async function AdminPage() {
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <AdminStatsCard label="Total Members" value={typedMembers.length} description="All Diamond profiles" icon={UsersRound} />
         <AdminStatsCard label="Submitted Today" value={activeTodaySubmitters.size} description="Active members who checked in today" icon={CalendarCheck2} />
+        <AdminStatsCard label="Tasks Planned Today" value={todayTaskPlanners.size} description="Members with Top 3 tasks today" icon={CalendarCheck2} />
+        <AdminStatsCard label="Tasks Completed Today" value={todayTaskCompleters.size} description="Members with completed tasks today" icon={Star} />
         <AdminStatsCard label="Not Submitted Today" value={Math.max(activeMembers.length - activeTodaySubmitters.size, 0)} description="Active members pending today" icon={ClipboardList} />
+        <AdminStatsCard label="No Tasks Today" value={Math.max(activeMembers.length - todayTaskPlanners.size, 0)} description="Active members with no Top 3 tasks" icon={ClipboardList} />
         <AdminStatsCard label="Active This Week" value={weekActiveMembers.size} description="Members with weekly check-ins" icon={BarChart3} />
+        <AdminStatsCard label="Task Active This Week" value={weekTaskMembers.size} description="Members planning weekly tasks" icon={BarChart3} />
         <AdminStatsCard label="Inactive Members" value={inactiveMembers.length} description="Missed 3+ days" icon={AlertCircle} />
       </div>
 

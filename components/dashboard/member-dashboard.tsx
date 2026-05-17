@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   CalendarCheck2,
+  CalendarDays,
   CheckCircle2,
   ChevronRight,
   Flame,
@@ -12,7 +13,15 @@ import {
 } from "lucide-react";
 import type { DashboardData } from "@/lib/dashboard";
 import type { Profile } from "@/lib/types";
-import { dailyTargetPoints, stageSummaries, weeklyTargetPoints } from "@/lib/types";
+import {
+  dailyTargetPoints,
+  habitTargetPoints,
+  stageSummaries,
+  taskTargetPoints,
+  weeklyHabitTargetPoints,
+  weeklyTargetPoints,
+  weeklyTaskTargetPoints
+} from "@/lib/types";
 import { PremiumCard } from "@/components/ui/premium-card";
 import { ProgressRing } from "@/components/ui/progress-ring";
 import { PointsBadge } from "@/components/ui/points-badge";
@@ -54,6 +63,13 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
             >
               <Sparkles className="h-4 w-4" />
               Submit Today’s Growth
+            </Link>
+            <Link
+              href="/calendar"
+              className="tap-target inline-flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/10 px-5 py-3 text-sm font-black text-white shadow-lg shadow-black/10 transition hover:bg-white/15"
+            >
+              <CalendarDays className="h-4 w-4 text-gold" />
+              Top 3 Tasks
             </Link>
           </div>
         </div>
@@ -103,9 +119,7 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
                 {data.todayPoints} <span className="text-xl text-brown">/ {dailyTargetPoints}</span>
               </h2>
               <p className="mt-3 text-sm leading-6 text-brown">
-                {data.todayCheckin
-                  ? "Great! আজকের progress save হয়ে গেছে."
-                  : "Today’s check-in is waiting. Keep it under 60 seconds."}
+                Habit score and Top 3 task score now combine into your daily growth score.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <PointsBadge points={data.todayPoints} target={dailyTargetPoints} />
@@ -118,6 +132,11 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
               </div>
             </div>
             <ProgressRing value={data.todayPercent} label="Today" />
+          </div>
+
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <ScoreSplit label="Habit Score" value={data.todayHabitPoints} target={habitTargetPoints} />
+            <ScoreSplit label="Top 3 Task Score" value={data.todayTaskPoints} target={taskTargetPoints} />
           </div>
 
           <div className="mt-6 h-3 overflow-hidden rounded-full bg-[#EFE1CA]">
@@ -144,7 +163,7 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
                 {data.weeklyPoints} <span className="text-lg text-brown">/ {weeklyTargetPoints}</span>
               </h2>
               <p className="mt-2 text-sm leading-6 text-brown">
-                Build consistency before chasing intensity.
+                Habit {data.weeklyHabitPoints}/{weeklyHabitTargetPoints} · Tasks {data.weeklyTaskPoints}/{weeklyTaskTargetPoints}
               </p>
             </div>
             <div className="rounded-2xl bg-warning/10 p-3 text-warning">
@@ -167,7 +186,7 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
         </PremiumCard>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4 lg:grid-cols-4">
         <PremiumCard>
           <p className="text-sm font-black text-brown">Monthly Progress</p>
           <div className="mt-4 flex items-center justify-between gap-4">
@@ -178,6 +197,34 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
               </p>
             </div>
             <ProgressRing value={data.monthlyPercent} label="Month" size={96} stroke={9} />
+          </div>
+        </PremiumCard>
+
+        <PremiumCard>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-black text-brown">Today’s Top 3 Tasks</p>
+              <h2 className="mt-1 text-xl font-black text-navy">{data.todayTaskPoints}/30 task score</h2>
+            </div>
+            <Link href="/calendar" className="rounded-2xl bg-gold/10 px-3 py-2 text-xs font-black text-gold-dark">
+              Open
+            </Link>
+          </div>
+          <div className="mt-4 space-y-2">
+            {[1, 2, 3].map((order) => {
+              const task = data.todayTasks.find((item) => item.task_order === order);
+
+              return (
+                <div key={order} className="flex items-center gap-3 rounded-2xl border border-border-soft bg-white/66 p-3">
+                  <span className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-black ${task?.is_completed ? "bg-success text-white" : "bg-background text-brown"}`}>
+                    {task?.is_completed ? <CheckCircle2 className="h-4 w-4" /> : order}
+                  </span>
+                  <p className="min-w-0 flex-1 truncate text-sm font-bold text-navy">
+                    {task?.title || `Plan task ${order}`}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </PremiumCard>
 
@@ -230,6 +277,24 @@ function MetricPill({ label, value }: { label: string; value: string }) {
     <div className="rounded-2xl border border-border-soft bg-white/66 p-3 text-center">
       <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown">{label}</p>
       <p className="mt-1 text-xl font-black text-navy">{value}</p>
+    </div>
+  );
+}
+
+function ScoreSplit({ label, value, target }: { label: string; value: number; target: number }) {
+  const percent = Math.min(100, Math.round((value / target) * 100));
+
+  return (
+    <div className="rounded-2xl border border-border-soft bg-white/70 p-3">
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-xs font-black uppercase tracking-[0.12em] text-brown">{label}</p>
+        <p className="text-sm font-black text-navy">
+          {value}/{target}
+        </p>
+      </div>
+      <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#EFE1CA]">
+        <div className="h-full rounded-full bg-gold transition-all duration-700" style={{ width: `${percent}%` }} />
+      </div>
     </div>
   );
 }

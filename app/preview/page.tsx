@@ -26,6 +26,34 @@ const previewDashboardData: DashboardData = {
   todayCheckin: null,
   weeklyCheckins: [],
   monthlyCheckins: [],
+  todayTasks: [
+    {
+      id: "00000000-0000-0000-0000-000000000101",
+      user_id: previewProfile.id,
+      task_date: "2026-05-15",
+      task_order: 1,
+      title: "Record coaching offer reel",
+      note: null,
+      is_completed: true,
+      points: 10,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: "00000000-0000-0000-0000-000000000102",
+      user_id: previewProfile.id,
+      task_date: "2026-05-15",
+      task_order: 2,
+      title: "Follow up with warm leads",
+      note: null,
+      is_completed: true,
+      points: 10,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
+  ],
+  weeklyTasks: [],
+  monthlyTasks: [],
   weeklyReview: null,
   weeklyLeaderboard: [
     {
@@ -34,7 +62,7 @@ const previewDashboardData: DashboardData = {
       full_name: "Ananya Coach",
       avatar_url: null,
       current_stage: "First Win Coach",
-      points: 320,
+      points: 470,
       streak: 6
     },
     {
@@ -43,7 +71,7 @@ const previewDashboardData: DashboardData = {
       full_name: previewProfile.full_name,
       avatar_url: null,
       current_stage: previewProfile.current_stage,
-      points: 292,
+      points: 422,
       streak: 5
     },
     {
@@ -52,21 +80,27 @@ const previewDashboardData: DashboardData = {
       full_name: "Sourav Mentor",
       avatar_url: null,
       current_stage: "Launch Finisher",
-      points: 268,
+      points: 388,
       streak: 4
     }
   ],
   currentStageIndex: 1,
   nextStage: "First Win Coach",
-  todayPoints: 38,
-  todayPercent: 76,
-  weeklyPoints: 292,
-  weeklyPercent: 83,
+  todayPoints: 58,
+  todayHabitPoints: 38,
+  todayTaskPoints: 20,
+  todayPercent: 73,
+  weeklyPoints: 422,
+  weeklyHabitPoints: 292,
+  weeklyTaskPoints: 130,
+  weeklyPercent: 75,
   daysCompletedThisWeek: 5,
   currentStreak: 5,
-  monthlyPoints: 820,
+  monthlyPoints: 1180,
+  monthlyHabitPoints: 820,
+  monthlyTaskPoints: 360,
   monthlyPercent: 68,
-  monthlyTargetPoints: 1200,
+  monthlyTargetPoints: 1280,
   weeklyRank: 2,
   reviewSubmitted: false
 };

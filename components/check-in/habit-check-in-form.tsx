@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Check, Loader2, Save, Sparkles } from "lucide-react";
 import { saveTodayCheckIn, type CheckInActionState } from "@/app/actions/check-in";
 import { calculateHabitPoints, getHabitValuesFromCheckin, habits, type HabitKey } from "@/lib/habits";
-import type { DailyCheckin } from "@/lib/types";
+import { habitTargetPoints, type DailyCheckin } from "@/lib/types";
 import { PremiumCard } from "@/components/ui/premium-card";
 import { ProgressRing } from "@/components/ui/progress-ring";
 import { SuccessToast } from "@/components/ui/success-toast";
@@ -31,7 +31,7 @@ export function HabitCheckInForm({ todayCheckin }: HabitCheckInFormProps) {
   const [notes, setNotes] = useState(todayCheckin?.notes || "");
   const totalPoints = useMemo(() => calculateHabitPoints(values), [values]);
   const completedCount = Object.values(values).filter(Boolean).length;
-  const scorePercent = Math.round((totalPoints / 50) * 100);
+  const scorePercent = Math.round((totalPoints / habitTargetPoints) * 100);
 
   useEffect(() => {
     if (state.status === "success") {
@@ -65,7 +65,7 @@ export function HabitCheckInForm({ todayCheckin }: HabitCheckInFormProps) {
                 {completedCount}/7 habits
               </span>
               <span className="rounded-full bg-gold px-3 py-1.5 text-xs font-black text-navy">
-                {totalPoints}/50 points
+                {totalPoints}/{habitTargetPoints} points
               </span>
               {todayCheckin ? (
                 <span className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-black text-[#F8DFA7] ring-1 ring-white/10">

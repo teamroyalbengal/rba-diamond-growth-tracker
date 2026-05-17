@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BarChart3,
+  CalendarDays,
   ClipboardCheck,
   Gem,
   Home,
@@ -19,6 +20,7 @@ import { LogoutButton } from "@/components/layout/logout-button";
 const memberNav = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
   { href: "/check-in", label: "Check-in", icon: ClipboardCheck },
+  { href: "/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
   { href: "/journey", label: "Journey", icon: Map },
   { href: "/weekly-review", label: "Review", icon: MessageSquareText }
@@ -101,7 +103,7 @@ export function BottomNavigation() {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border-soft bg-[#fffaf0]/94 px-2 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-2 shadow-[0_-18px_40px_rgba(16,31,53,0.08)] backdrop-blur-xl md:hidden">
       <div className="mx-auto grid max-w-md grid-cols-5 gap-1">
-        {memberNav.map((item) => {
+        {memberNav.slice(0, 5).map((item) => {
           const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (

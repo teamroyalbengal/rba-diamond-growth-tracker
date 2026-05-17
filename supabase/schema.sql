@@ -47,6 +47,20 @@ create table if not exists public.daily_checkins (
   unique (user_id, checkin_date)
 );
 
+create table if not exists public.daily_tasks (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  task_date date not null,
+  task_order integer not null check (task_order between 1 and 3),
+  title text not null check (char_length(trim(title)) > 0),
+  note text,
+  is_completed boolean not null default false,
+  points integer not null default 10 check (points = 10),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, task_date, task_order)
+);
+
 create table if not exists public.weekly_reviews (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references public.profiles(id) on delete cascade,
@@ -89,6 +103,7 @@ create table if not exists public.admin_point_adjustments (
 create index if not exists profiles_role_idx on public.profiles(role);
 create index if not exists profiles_active_idx on public.profiles(is_active);
 create index if not exists daily_checkins_user_date_idx on public.daily_checkins(user_id, checkin_date desc);
+create index if not exists daily_tasks_user_date_idx on public.daily_tasks(user_id, task_date desc);
 create index if not exists weekly_reviews_user_week_idx on public.weekly_reviews(user_id, week_start desc);
 
 create or replace function public.set_updated_at()
@@ -109,6 +124,11 @@ for each row execute function public.set_updated_at();
 drop trigger if exists set_daily_checkins_updated_at on public.daily_checkins;
 create trigger set_daily_checkins_updated_at
 before update on public.daily_checkins
+for each row execute function public.set_updated_at();
+
+drop trigger if exists set_daily_tasks_updated_at on public.daily_tasks;
+create trigger set_daily_tasks_updated_at
+before update on public.daily_tasks
 for each row execute function public.set_updated_at();
 
 drop trigger if exists set_weekly_reviews_updated_at on public.weekly_reviews;
@@ -257,23 +277,39 @@ as $$
       p.full_name,
       p.avatar_url,
       p.current_stage,
-      coalesce(sum(dc.total_points), 0)::bigint as points,
+      (coalesce(checkin_scores.habit_points, 0) + coalesce(task_scores.task_points, 0))::bigint as points,
       public.calculate_member_streak(p.id) as streak
     from public.profiles p
     cross join bounds b
-    left join public.daily_checkins dc
-      on dc.user_id = p.id
-      and (
+    left join lateral (
+      select coalesce(sum(dc.total_points), 0)::bigint as habit_points
+      from public.daily_checkins dc
+      where dc.user_id = p.id
+        and (
+          case
+            when period = 'daily' then dc.checkin_date = b.today
+            when period = 'weekly' then dc.checkin_date between b.week_start and b.today
+            when period = 'monthly' then dc.checkin_date between b.month_start and b.today
+            when period = 'all_time' then true
+            else dc.checkin_date between b.week_start and b.today
+          end
+        )
+    ) checkin_scores on true
+    left join lateral (
+      select coalesce(sum(case when dt.is_completed then dt.points else 0 end), 0)::bigint as task_points
+      from public.daily_tasks dt
+      where dt.user_id = p.id
+        and (
         case
-          when period = 'daily' then dc.checkin_date = b.today
-          when period = 'weekly' then dc.checkin_date between b.week_start and b.today
-          when period = 'monthly' then dc.checkin_date between b.month_start and b.today
+          when period = 'daily' then dt.task_date = b.today
+          when period = 'weekly' then dt.task_date between b.week_start and b.today
+          when period = 'monthly' then dt.task_date between b.month_start and b.today
           when period = 'all_time' then true
-          else dc.checkin_date between b.week_start and b.today
+          else dt.task_date between b.week_start and b.today
         end
       )
+    ) task_scores on true
     where p.is_active = true
-    group by p.id, p.full_name, p.avatar_url, p.current_stage
   )
   select
     dense_rank() over (order by points desc, streak desc, full_name asc) as rank,
@@ -314,6 +350,7 @@ grant execute on function public.get_weekly_leaderboard(integer) to authenticate
 
 alter table public.profiles enable row level security;
 alter table public.daily_checkins enable row level security;
+alter table public.daily_tasks enable row level security;
 alter table public.weekly_reviews enable row level security;
 alter table public.stage_history enable row level security;
 alter table public.admin_point_adjustments enable row level security;
@@ -354,6 +391,33 @@ with check (auth.uid() = user_id and checkin_date = (now() at time zone 'Asia/Ko
 drop policy if exists "Admins can manage checkins" on public.daily_checkins;
 create policy "Admins can manage checkins"
 on public.daily_checkins for all
+using (public.is_admin())
+with check (public.is_admin());
+
+drop policy if exists "Members can read own daily tasks" on public.daily_tasks;
+create policy "Members can read own daily tasks"
+on public.daily_tasks for select
+using (auth.uid() = user_id);
+
+drop policy if exists "Members can create own daily tasks" on public.daily_tasks;
+create policy "Members can create own daily tasks"
+on public.daily_tasks for insert
+with check (auth.uid() = user_id);
+
+drop policy if exists "Members can edit own daily tasks" on public.daily_tasks;
+create policy "Members can edit own daily tasks"
+on public.daily_tasks for update
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+drop policy if exists "Members can delete own daily tasks" on public.daily_tasks;
+create policy "Members can delete own daily tasks"
+on public.daily_tasks for delete
+using (auth.uid() = user_id);
+
+drop policy if exists "Admins can manage daily tasks" on public.daily_tasks;
+create policy "Admins can manage daily tasks"
+on public.daily_tasks for all
 using (public.is_admin())
 with check (public.is_admin());
 

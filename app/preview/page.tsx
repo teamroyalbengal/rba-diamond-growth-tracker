@@ -84,6 +84,19 @@ const previewDashboardData: DashboardData = {
       streak: 4
     }
   ],
+  growthTrend: [
+    { dateKey: "2026-05-09", label: "Sat", habitPoints: 30, taskPoints: 10, totalPoints: 40, missed: false },
+    { dateKey: "2026-05-10", label: "Sun", habitPoints: 0, taskPoints: 0, totalPoints: 0, missed: true },
+    { dateKey: "2026-05-11", label: "Mon", habitPoints: 42, taskPoints: 20, totalPoints: 62, missed: false },
+    { dateKey: "2026-05-12", label: "Tue", habitPoints: 34, taskPoints: 20, totalPoints: 54, missed: false },
+    { dateKey: "2026-05-13", label: "Wed", habitPoints: 50, taskPoints: 30, totalPoints: 80, missed: false },
+    { dateKey: "2026-05-14", label: "Thu", habitPoints: 30, taskPoints: 10, totalPoints: 40, missed: false },
+    { dateKey: "2026-05-15", label: "Today", habitPoints: 38, taskPoints: 20, totalPoints: 58, missed: false }
+  ],
+  growthAverage: 48,
+  growthBestDay: 80,
+  growthMissedDays: 1,
+  growthInsight: "Strong comeback! Your score improved from yesterday.",
   currentStageIndex: 1,
   nextStage: "First Win Coach",
   todayPoints: 58,

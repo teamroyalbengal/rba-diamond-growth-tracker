@@ -65,3 +65,7 @@ export function getCurrentWeekDateKeys(todayDateKey = getTodayDateKey()) {
   const weekStart = getWeekStartDateKey(todayDateKey);
   return Array.from({ length: 7 }, (_, index) => addDays(weekStart, index));
 }
+
+export function getRecentDateKeys(days: number, todayDateKey = getTodayDateKey()) {
+  return Array.from({ length: days }, (_, index) => addDays(todayDateKey, index - days + 1));
+}

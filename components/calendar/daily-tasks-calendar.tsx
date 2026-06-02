@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, Check, ChevronLeft, ChevronRight, Loader2, Save, Trash2 } from "lucide-react";
+import { CalendarDays, Check, ChevronLeft, ChevronRight, Circle, Loader2, Save, Trash2 } from "lucide-react";
 import { saveDailyTasks, type DailyTasksActionState } from "@/app/actions/daily-tasks";
 import { formatDisplayDate } from "@/lib/date";
 import type { DailyTask } from "@/lib/types";
@@ -154,20 +154,7 @@ function TaskEditor({ selectedDate, selectedTasks }: { selectedDate: string; sel
           {drafts.map((task) => (
             <PremiumCard key={task.task_order} className={cn(task.is_completed && task.title.trim() ? "border-success/25 bg-success/10" : "")}>
               <input type="hidden" name={`task_${task.task_order}_id`} value={task.id || ""} />
-              <div className="flex items-start gap-3">
-                <button
-                  type="button"
-                  onClick={() => updateDraft(task.task_order, { is_completed: !task.is_completed })}
-                  className={cn(
-                    "mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border transition",
-                    task.is_completed && task.title.trim()
-                      ? "border-success bg-success text-white"
-                      : "border-border-soft bg-white text-brown"
-                  )}
-                  aria-label={`Mark task ${task.task_order} complete`}
-                >
-                  {task.is_completed && task.title.trim() ? <Check className="h-5 w-5" /> : task.task_order}
-                </button>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
                 <input
                   type="checkbox"
                   name={`task_${task.task_order}_completed`}
@@ -176,6 +163,25 @@ function TaskEditor({ selectedDate, selectedTasks }: { selectedDate: string; sel
                   className="sr-only"
                 />
                 <div className="min-w-0 flex-1 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-background text-sm font-black text-brown">
+                      {task.task_order}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => updateDraft(task.task_order, { is_completed: !task.is_completed })}
+                      disabled={!task.title.trim()}
+                      className={cn(
+                        "tap-target inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-2xl px-3 text-sm font-black transition disabled:cursor-not-allowed disabled:opacity-45",
+                        task.is_completed && task.title.trim()
+                          ? "bg-success text-white shadow-lg shadow-success/10"
+                          : "border border-border-soft bg-white text-navy hover:border-success/35 hover:bg-success/10"
+                      )}
+                    >
+                      {task.is_completed && task.title.trim() ? <Check className="h-4 w-4" /> : <Circle className="h-4 w-4" />}
+                      {task.is_completed && task.title.trim() ? "Completed" : "Mark complete"}
+                    </button>
+                  </div>
                   <input
                     name={`task_${task.task_order}_title`}
                     value={task.title}
@@ -197,7 +203,7 @@ function TaskEditor({ selectedDate, selectedTasks }: { selectedDate: string; sel
                 <button
                   type="button"
                   onClick={() => updateDraft(task.task_order, { title: "", note: "", is_completed: false })}
-                  className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-border-soft bg-white text-brown transition hover:border-warning/30 hover:bg-warning/10 hover:text-warning"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-border-soft bg-white text-brown transition hover:border-warning/30 hover:bg-warning/10 hover:text-warning"
                   aria-label={`Clear task ${task.task_order}`}
                 >
                   <Trash2 className="h-4 w-4" />

@@ -21,6 +21,7 @@ export function GrowthTrendCard({
   const chartWidth = 640;
   const chartHeight = 190;
   const padding = 22;
+  const todayScore = trend[trend.length - 1]?.totalPoints || 0;
   const points = trend.map((day, index) => {
     const x = padding + (index * (chartWidth - padding * 2)) / Math.max(trend.length - 1, 1);
     const percent = Math.min(day.totalPoints / dailyTargetPoints, 1);
@@ -29,6 +30,7 @@ export function GrowthTrendCard({
   });
   const path = points.map((point, index) => `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`).join(" ");
   const areaPath = `${path} L ${chartWidth - padding} ${chartHeight - padding} L ${padding} ${chartHeight - padding} Z`;
+  const averageY = chartHeight - padding - (average / dailyTargetPoints) * (chartHeight - padding * 2);
 
   return (
     <PremiumCard className="overflow-hidden">
@@ -41,15 +43,15 @@ export function GrowthTrendCard({
           <h2 className="mt-3 text-2xl font-black text-navy">Momentum Graph</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-brown">{insight}</p>
         </div>
-        <div className="grid grid-cols-3 gap-2 text-center">
+        <div className="grid grid-cols-3 gap-2 text-center sm:min-w-[260px]">
+          <MiniStat label="Today" value={`${todayScore}/80`} />
           <MiniStat label="7-Day Avg" value={`${average}/80`} />
           <MiniStat label="Best Day" value={`${bestDay}/80`} />
-          <MiniStat label="Missed" value={`${missedDays}`} />
         </div>
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-[24px] border border-border-soft bg-white/70 p-3">
-        <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="h-56 w-full" role="img" aria-label="Last 7 days growth graph">
+      <div className="mt-6 overflow-hidden rounded-[24px] border border-border-soft bg-white/70 p-2.5 sm:p-3">
+        <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="h-48 w-full sm:h-56" role="img" aria-label="Last 7 days growth graph">
           <defs>
             <linearGradient id="growthArea" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor="#C4933A" stopOpacity="0.28" />
@@ -68,6 +70,15 @@ export function GrowthTrendCard({
             );
           })}
           <path d={areaPath} fill="url(#growthArea)" />
+          <line
+            x1={padding}
+            x2={chartWidth - padding}
+            y1={averageY}
+            y2={averageY}
+            stroke="#0F766E"
+            strokeDasharray="8 8"
+            strokeOpacity="0.38"
+          />
           <path d={path} fill="none" stroke="#C4933A" strokeLinecap="round" strokeLinejoin="round" strokeWidth="5" />
           {points.map((point) => (
             <g key={point.dateKey}>
@@ -85,6 +96,10 @@ export function GrowthTrendCard({
             </g>
           ))}
         </svg>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-black text-brown">
+        <span className="rounded-full bg-success/10 px-3 py-1.5 text-success">Average line</span>
+        <span className="rounded-full bg-warning/10 px-3 py-1.5 text-warning">{missedDays} missed days</span>
       </div>
     </PremiumCard>
   );

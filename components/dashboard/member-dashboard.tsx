@@ -4,7 +4,6 @@ import {
   CalendarDays,
   CheckCircle2,
   ChevronRight,
-  Flame,
   Gem,
   MessageSquareText,
   Sparkles,
@@ -17,10 +16,7 @@ import {
   dailyTargetPoints,
   habitTargetPoints,
   stageSummaries,
-  taskTargetPoints,
-  weeklyHabitTargetPoints,
-  weeklyTargetPoints,
-  weeklyTaskTargetPoints
+  taskTargetPoints
 } from "@/lib/types";
 import { PremiumCard } from "@/components/ui/premium-card";
 import { ProgressRing } from "@/components/ui/progress-ring";
@@ -28,6 +24,7 @@ import { PointsBadge } from "@/components/ui/points-badge";
 import { StageBadge } from "@/components/ui/stage-badge";
 import { AdminQuickLink } from "@/components/layout/navigation";
 import { DashboardCard } from "@/components/dashboard/dashboard-card";
+import { GrowthTrendCard } from "@/components/dashboard/growth-trend-card";
 import { LeaderboardPreview } from "@/components/dashboard/leaderboard-preview";
 import { JourneyMini } from "@/components/dashboard/journey-mini";
 
@@ -107,7 +104,7 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
         />
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[1.16fr_0.84fr]">
+      <div className="grid gap-4 xl:grid-cols-[0.88fr_1.12fr]">
         <PremiumCard className="overflow-hidden">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -155,51 +152,16 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
           </Link>
         </PremiumCard>
 
-        <PremiumCard>
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <p className="text-sm font-black text-brown">Weekly Progress</p>
-              <h2 className="mt-2 text-4xl font-black text-navy">
-                {data.weeklyPoints} <span className="text-lg text-brown">/ {weeklyTargetPoints}</span>
-              </h2>
-              <p className="mt-2 text-sm leading-6 text-brown">
-                Habit {data.weeklyHabitPoints}/{weeklyHabitTargetPoints} · Tasks {data.weeklyTaskPoints}/{weeklyTaskTargetPoints}
-              </p>
-            </div>
-            <div className="rounded-2xl bg-warning/10 p-3 text-warning">
-              <Flame className="h-6 w-6" />
-            </div>
-          </div>
-
-          <div className="mt-5 h-3 overflow-hidden rounded-full bg-[#EFE1CA]">
-            <div
-              className="h-full rounded-full bg-success transition-all duration-700"
-              style={{ width: `${data.weeklyPercent}%` }}
-            />
-          </div>
-
-          <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">
-            <MetricPill label="Days done" value={`${data.daysCompletedThisWeek}/7`} />
-            <MetricPill label="Streak" value={`${data.currentStreak}d`} />
-            <MetricPill label="Rank" value={data.weeklyRank ? `#${data.weeklyRank}` : "-"} />
-          </div>
-        </PremiumCard>
+        <GrowthTrendCard
+          trend={data.growthTrend}
+          average={data.growthAverage}
+          bestDay={data.growthBestDay}
+          missedDays={data.growthMissedDays}
+          insight={data.growthInsight}
+        />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-4">
-        <PremiumCard>
-          <p className="text-sm font-black text-brown">Monthly Progress</p>
-          <div className="mt-4 flex items-center justify-between gap-4">
-            <div>
-              <h2 className="text-3xl font-black text-navy">{data.monthlyPoints}</h2>
-              <p className="mt-1 text-sm leading-6 text-brown">
-                of {data.monthlyTargetPoints} available points
-              </p>
-            </div>
-            <ProgressRing value={data.monthlyPercent} label="Month" size={96} stroke={9} />
-          </div>
-        </PremiumCard>
-
+      <div className="grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
         <PremiumCard>
           <div className="flex items-start justify-between gap-4">
             <div>
@@ -228,7 +190,7 @@ export function MemberDashboard({ profile, data }: MemberDashboardProps) {
           </div>
         </PremiumCard>
 
-        <div className="lg:col-span-2">
+        <div>
           <LeaderboardPreview
             members={data.weeklyLeaderboard}
             currentUserId={profile.id}
@@ -268,15 +230,6 @@ function HeroMetric({ label, value }: { label: string; value: string }) {
     <div className="rounded-2xl border border-white/12 bg-white/10 px-4 py-3 backdrop-blur-sm">
       <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#F8DFA7]">{label}</p>
       <p className="mt-1 text-xl font-black text-white">{value}</p>
-    </div>
-  );
-}
-
-function MetricPill({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-border-soft bg-white/66 p-3 text-center">
-      <p className="text-xs font-bold uppercase tracking-[0.12em] text-brown">{label}</p>
-      <p className="mt-1 text-xl font-black text-navy">{value}</p>
     </div>
   );
 }
